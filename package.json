@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "name": "express-blog-api-crud",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "express-blog-api-crud"
+  },
+  "keywords": [
+    "express",
+    "crud",
+    "api"
+  ],
+  "author": "Emanuele Sguerzo",
+  "license": "ISC",
+  "description": ""
+}

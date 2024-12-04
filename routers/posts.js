@@ -1,43 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const postsData = require("../data/posts");
+const postsController = require("../controller/postsController");
 
 // Index
-router.get("/", (req, res) => {
-    res.json({
-        post: postsData,
-        lunghezza: postsData.length,
-    });
-});
+router.get("/", postsController.index);
 
 // Show
-router.get("/:id", (req, res) => {
-    const postId = parseInt(req.params.id);
-    const post = postsData.find((curPost) => curPost.id === postId);
-    res.json(post);
-});
+router.get("/:id", postsController.show);
 
 // Create
-router.post("/", (req, res) => {
-    res.json("Creo un nuovo elemento!");
-});
+router.post("/", postsController.create);
 
 // Update
-router.put("/:id", (req, res) => {
-    const postId = req.params.id;
-    res.json("Modifico i dati dell'elemento " + postId);
-});
+router.put("/:id", postsController.update);
 
 // Modify
-router.patch("/:id", (req, res) => {
-    const postId = req.params.id;
-    res.json("Modifico alcuni dati dell'elemento " + postId);
-});
+router.patch("/:id", postsController.modify);
 
 // Destroy
-router.delete("/:id", (req, res) => {
-    const postId = req.params.id;
-    res.json("Cancello l'elemento " + postId)
-})
+router.delete("/:id", postsController.destroy);
 
+// Export
 module.exports = router;

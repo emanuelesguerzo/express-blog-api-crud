@@ -3,9 +3,24 @@ const postsData = require("../data/posts");
 
 // Index
 const index = (req, res) => {
+    const queryString = req.query;
+    let postsToFind = postsData;
+
+    if(queryString.tags !== undefined) {
+        postsToFind = postsData.filter((curPost) => curPost.tags.includes(queryString.tags))
+    };
+
+    if (postsToFind.length === 0) {
+        res.statusCode = 404;
+        res.json({
+            error: true,
+            message: "Post non trovato con il tag selezionato."
+        });
+    };
+
     res.json({
-        post: postsData,
-        lunghezza: postsData.length,
+        lunghezza: postsToFind.length,
+        post: postsToFind,
     });
 };
 
@@ -18,7 +33,7 @@ const show = (req, res) => {
         res.statusCode = 404;
         res.json({
             error: true,
-            message: "Post non trovato!"
+            message: "Post non trovato."
         });
     } else {
         res.json(post);
@@ -27,7 +42,7 @@ const show = (req, res) => {
 
 // Create
 const create = (req, res) => {
-    res.json("Creo un nuovo elemento!");
+    res.json("Creo un nuovo elemento");
 };
 
 // Update
@@ -51,7 +66,7 @@ const destroy = (req, res) => {
         res.statusCode = 404;
         res.json({
             error: true,
-            message: "Post non trovato!",
+            message: "Post non trovato.",
         });
     } else {
         postsData.splice(postIndex, 1);

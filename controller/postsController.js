@@ -3,25 +3,20 @@ const postsData = require("../data/posts");
 
 // Index
 const index = (req, res) => {
-    const queryString = req.query;
-    let postsToFind = postsData;
+    const queryString = req.query.tags;
 
-    if(queryString.tags !== undefined) {
-        postsToFind = postsData.filter((curPost) => curPost.tags.includes(queryString.tags))
-    };
-
-    if (postsToFind.length === 0) {
-        res.statusCode = 404;
+    if(queryString === undefined) {
         res.json({
-            error: true,
-            message: "Post non trovato con il tag selezionato."
-        });
+            data: postsData,
+            count: postsData.length,
+        })
+    } else {
+        const result = postsData.filter((curPost) =>  curPost.tags.includes(queryString)); 
+        res.json({
+            data: result,
+            count: result.length
+        })
     };
-
-    res.json({
-        lunghezza: postsToFind.length,
-        post: postsToFind,
-    });
 };
 
 // Show
@@ -41,14 +36,13 @@ const show = (req, res) => {
 };
 
 // Create
-const create = (req, res) => {
-    res.json("Creo un nuovo elemento");
+const store = (req, res) => {
+    console.log(req.body);
 };
 
 // Update
 const update = (req, res) => {
-    const postId = req.params.id;
-    res.json("Modifico i dati dell'elemento " + postId);
+
 };
 
 // Modify
@@ -79,7 +73,7 @@ const destroy = (req, res) => {
 module.exports = {
     index,
     show,
-    create,
+    store,
     update,
     modify,
     destroy,

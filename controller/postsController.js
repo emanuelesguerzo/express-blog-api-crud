@@ -35,17 +35,15 @@ const show = (req, res) => {
     }
 };
 
-// Create
+// Store
 const store = (req, res) => {
     console.log(req.body);
 
     const id = postsData[postsData.length -1].id + 1;
+
     const newPost = {
         id: id,
-        title: req.body.title,
-        content: req.body.content,
-        image: req.body.image,
-        tags: req.body.tags
+        ...req.body
     }
 
     postsData.push(newPost)
@@ -55,7 +53,25 @@ const store = (req, res) => {
 
 // Update
 const update = (req, res) => {
+    const postId = parseInt(req.params.id);
 
+    const postUpdate = {
+        id: postId,
+        ...req.body
+    }
+
+    const indexToUpdate = postsData.findIndex((curPost) => curPost.id === postId);
+
+    if(indexToUpdate === -1) {
+        res.statusCode = 404;
+        res.json({
+            error: true,
+            message: "Post da aggiornare non trovato."
+        })
+    } else {
+        postsData[indexToUpdate] = postUpdate;
+        res.json(postUpdate);
+    }
 };
 
 // Modify

@@ -38,6 +38,19 @@ const show = (req, res) => {
 // Create
 const store = (req, res) => {
     console.log(req.body);
+
+    const id = postsData[postsData.length -1].id + 1;
+    const newPost = {
+        id: id,
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
+    }
+
+    postsData.push(newPost)
+    res.statusCode = 201;
+    res.json(newPost)
 };
 
 // Update

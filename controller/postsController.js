@@ -8,7 +8,7 @@ const index = (req, res) => {
     if(queryString === undefined) {
         res.json({
             data: postsData,
-            count: postsData.length,
+            count: postsData.length
         })
     } else {
         const result = postsData.filter((curPost) =>  curPost.tags.includes(queryString)); 
@@ -76,8 +76,24 @@ const update = (req, res) => {
 
 // Modify
 const modify = (req, res) => {
-    const postId = req.params.id;
-    res.json("Modifico alcuni dati dell'elemento " + postId);
+    const postId = parseInt(req.params.id);
+
+    const indexToUpdate = postsData.findIndex((curPost) => curPost.id === postId);
+
+    if(indexToUpdate === -1) {
+        res.statusCode = 404;
+        res.json({
+            error: true,
+            message: "Post da aggiornare non trovato."
+        })
+    } else {
+        postsData[indexToUpdate] = {
+            ...postsData[indexToUpdate],
+            ...req.body
+        }
+        
+        res.json(postsData[indexToUpdate]);
+    }
 };
 
 // Destroy

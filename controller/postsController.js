@@ -9,7 +9,7 @@ const index = (req, res) => {
         res.json({
             data: postsData,
             count: postsData.length
-        })
+        });
     } else {
         const result = postsData.filter((curPost) =>  curPost.tags.includes(queryString)); 
         res.json({
@@ -31,13 +31,12 @@ const store = (req, res) => {
     console.log(req.body);
 
     const id = postsData[postsData.length -1].id + 1;
-
     const newPost = {
         id: id,
         ...req.body
-    }
+    };
 
-    postsData.push(newPost)
+    postsData.push(newPost);
     res.statusCode = 201;
     res.json(newPost);
 };
@@ -45,32 +44,27 @@ const store = (req, res) => {
 // Update
 const update = (req, res) => {
     const postId = parseInt(req.params.id);
-
+    const indexToUpdate = postsData.findIndex((curPost) => curPost.id === postId);
     const postUpdate = {
         id: postId,
         ...req.body
     };
-
-    const indexToUpdate = postsData.findIndex((curPost) => curPost.id === postId);
-
-    postsData[indexToUpdate] = postUpdate;
-    res.json(postUpdate);
     
+    postsData[indexToUpdate] = postUpdate;
+    res.json(postUpdate); 
 };
 
 // Modify
 const modify = (req, res) => {
     const postId = parseInt(req.params.id);
-
     const indexToUpdate = postsData.findIndex((curPost) => curPost.id === postId);
 
     postsData[indexToUpdate] = {
         ...postsData[indexToUpdate],
         ...req.body
-    }
+    };
         
     res.json(postsData[indexToUpdate]);
-    
 };
 
 // Destroy
@@ -81,7 +75,6 @@ const destroy = (req, res) => {
     postsData.splice(postIndex, 1);
     console.log(postsData);
     res.sendStatus(204);
-    
 };
 
 // Export
@@ -91,5 +84,5 @@ module.exports = {
     store,
     update,
     modify,
-    destroy,
-}
+    destroy
+};

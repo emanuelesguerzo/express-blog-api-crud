@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const postsRouter = require("./routers/posts")
+const postsRouter = require("./routers/posts");
+const handleError = require("./middlewares/handleError");
 
 app.use(express.static("public"));
 
@@ -13,6 +14,10 @@ app.get("/", (req, res) => {
     res.json("Server del mio Blog");
 });
 
+// Error Handler
+app.use(handleError);
+
+// Listen
 app.listen(port, () => {
     console.log(`Server in esecuzione sulla porta ${port}`);
 });
